@@ -3,6 +3,9 @@ from pygsm import GsmModem
 class overmodem:
     def __init__(self,port):
         self.port=port
+        self.modem=""
+        self.logged_in=self.start_modem()
+
     def statusmsg( self, input_string ):
         if self.verbose:
             print "[ STATUS ] " + input_string
@@ -11,11 +14,13 @@ class overmodem:
             print "[ ERROR ] " + input_string
                     
     def sms(self , phone_number,text):
-        self.modem.wait_for_network()
-        was_sent = self.modem.send_sms(
+        if self.logged_in:
+            self.modem.wait_for_network()
+            was_sent = self.modem.send_sms(
             		phone_number,
             		text)
-        return was_sent
+            return was_sent
+        return False
   
     
     def gsm_log(self, modem, str, level):
@@ -31,6 +36,4 @@ class overmodem:
     		self.modem.boot()
     	except Exception as e:
     		self.statusmsg(e.message)
-    	
-        	
     	return result
