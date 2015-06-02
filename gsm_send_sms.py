@@ -1,7 +1,7 @@
 from pygsm import GsmModem
 
 class overmodem:
-     def __init__(self,port):
+    def __init__(self,port):
         self.port=port
     def statusmsg( self, input_string ):
         if self.verbose:
